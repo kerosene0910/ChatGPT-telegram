@@ -21,11 +21,12 @@ def chatgpt_response(prompt):
 def echo(update, context):
     user_input = update.message.text
     response = chatgpt_response(user_input)
-    if len(response) > 4096:
+    if not response:
+        response = "I'm sorry, I am unable to generate a response based on your input."
+    elif len(response) > 4096:
         response = response[:4093] + "..."
     update.message.reply_text(response)
-
-
+    
 def main():
     updater = Updater(TELEGRAM_TOKEN, use_context=True)
     dp = updater.dispatcher
